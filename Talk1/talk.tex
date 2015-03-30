@@ -1,0 +1,380 @@
+\documentclass{beamer}
+\usetheme{Madrid} % My favorite!
+%\usetheme{Boadilla}
+% Pretty neat, soft color.
+%\usetheme{default}
+%\usetheme{Warsaw}
+%\usetheme{Bergen}
+% This template has nagivation on the left
+%\usetheme{Frankfurt} % Similar to the default
+% with an extra region at the top.
+%\usecolortheme{seahorse} % Simple and clean template
+%\usetheme{Darmstadt} % not so good
+% Uncomment the following line if you want
+% % page numbers and using Warsaw theme%
+% \setbeamertemplate{footline}[page number]
+%\setbeamercovered{transparent}
+\setbeamercovered{invisible} % To remove the navigation symbols from
+% the bottom of slides
+% \setbeamertemplate{navigation symbols}{}
+\usepackage{graphicx}
+%\usepackage{bm} % For typesetting bold math (not \mathbold)
+%\logo{\includegraphics[height=0.6cm]{yourlogo.eps}} %
+\title[Harmonic Analysis]{A Gentle Introduction to Non-commutative Harmonic Analysis}
+\author[McDonald, E.]{McDonald, E. S. \\Supervisor: Sukochev, F.}
+\institute[UNSW] { UNSW Australia }
+%\titlegraphic{\includegraphics[width=60mm]{}
+\date{\today}
+\newcommand{\Rl}{\mathbb{R}}
+\newcommand{\Cplx}{\mathbb{C}}
+\newcommand{\Circ}{\mathbb{T}}
+\newcommand{\Itgr}{\mathbb{Z}}
+\newcommand{\ha}{\boldsymbol{m}}
+% \today will show current date.
+% Alternatively, you can specify a date.
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame} %
+\begin{frame}
+\frametitle{Introduction}
+    \begin{block}
+            {Question for this lecture:}
+                How do Fourier Series work?
+        \end{block}
+    \begin{block}
+            {Another Question:}
+                What is the non-commutative torus?
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Fourier Analysis In Kindergarten}
+    \begin{itemize}
+        \item{} In second year we learn the following situation:
+    \end{itemize}
+    \begin{definition}
+        If $f:\Rl\rightarrow\Cplx$ is a function that is periodic with period $P$, then
+        \begin{equation*}
+            f(x) = \frac{a_0}{2}+\sum_{n=1}^\infty \left(a_n \cos\left(\frac{2\pi n x}{P}\right)+b_n\sin\left(\frac{2\pi n x}{P}\right)\right)
+        \end{equation*}
+    \end{definition}
+    \begin{definition}
+        \begin{align*}
+            a_n &= \frac{2}{P}\int_{0}^P f(x) \cos\left(\frac{2\pi n x}{P}\right)\;dx\\
+            b_n &= \frac{2}{P}\int_{0}^P f(x) \sin\left(\frac{2\pi n x}{P}\right)\;dx
+        \end{align*}
+    \end{definition}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Fourier Analysis In Kindergarten}
+        There are many questions left unanswered...
+        \begin{itemize}
+            \item{} Does this really work for \emph{any} function $f$?
+            \item{} In what sense is the Fourier series meant to converge?
+        \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{A better notation}
+        The notation that was used in second year,
+        \begin{equation*}
+            f(x) = \frac{a_0}{2}+\sum_{n=1}^\infty \left(a_n \cos\left(\frac{2\pi n x}{P}\right)+b_n\sin\left(\frac{2\pi n x}{P}\right)\right),
+        \end{equation*}
+        is rather silly.
+        This;
+        \begin{equation*}
+            f(x) = \sum_{n=-\infty}^\infty c_n \exp\left(\frac{2\pi in x}{P}\right)
+        \end{equation*}
+        is much better.
+\end{frame}
+
+\begin{frame}
+    \frametitle{An even better notation still}
+    Let
+    \begin{equation*}
+        \Circ = \{\zeta \in \Cplx\;:\;|\zeta|=1\}.
+    \end{equation*}
+    We can identify periodic functions on $\Rl$
+    with functions on $\Circ$. 
+    Let
+    \begin{equation*}
+        z:\Circ\rightarrow\Circ
+    \end{equation*}
+    be the identity function.
+    If we are identifying $P$-periodic functions on $\Rl$
+    with functions on $\Circ$, then we identify
+    \begin{equation*}
+        \exp\left(\frac{2\pi i n x}{P}\right) = z^n.
+    \end{equation*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Integrating functions on $\Circ$}
+    $\Circ$ has a measure: normalised arc length.
+    We call this measure $\ha$, so that
+    if $f:\Circ\rightarrow\Cplx$,
+    \begin{equation*}
+        \int_\Circ f\;d\ha = \int_{0}^1 f\left(\exp(2\pi i t)\right)\;dt.
+    \end{equation*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{An even better notation still}
+    So with our new notation, Fourier series look like this:
+    \begin{definition}
+        If $f:\Circ\rightarrow \Cplx$, then the fourier series
+        of $f$ is
+        \begin{equation*}
+            \sum_{n \in \Itgr} c_n z^n.
+        \end{equation*}
+        where
+        \begin{equation*}
+            c_n = \int_\Circ z^{-n} f\;d\ha.
+        \end{equation*}
+    \end{definition}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Fourier Series for Grown-ups}
+    For $n \in \Itgr$, and $f \in L^1(\Circ,\ha)$,
+    let
+    \begin{equation*}
+        \widehat{f}(n) := \int_\Circ z^{-n}f\;d\ha.
+    \end{equation*}
+    So we have a ``correspondence",
+    \begin{equation*}
+        f \sim \sum_{n \in \Itgr} \widehat{f}(n) z^n.        
+    \end{equation*}
+    What does ``$\sim$" mean?
+\end{frame}
+
+\begin{frame}
+    \frametitle{What does the Fourier Series mean?}
+    At the moment when we write
+    \begin{equation*}
+        f \sim \sum_{n \in \Itgr} \widehat{f}(n) z^n
+    \end{equation*}
+    the right hand side is just a formal power series. What do
+    we have to do to make the ``$\sim$" into an ``$=$"?
+    
+    How shall the sum on the right hand side be interpreted? What
+    kind of object is this?
+\end{frame}
+
+\begin{frame}
+    \frametitle{Divergent Series}
+    Normally in mathematics, when we write
+    \begin{equation*}
+        \sum_{n=0}^\infty a_n,
+    \end{equation*}
+    we mean
+    \begin{equation*}
+        \lim_{N\rightarrow\infty}\sum_{n=0}^N a_n.
+    \end{equation*}
+    This means that series like
+    \begin{align*}
+        &\sum_{n=0}^\infty (-1)^n\\
+        &\sum_{n=0}^\infty n
+    \end{align*}
+    do not make sense. This is ``classical summation".
+\end{frame}
+
+\begin{frame}
+    \frametitle{Divergent Series}
+    It is often desirable to assign a ``sensible" value
+    to a series that is divergent. This is called \emph{regularisation}.
+    
+    
+    What this means is redefining what we mean by
+    \begin{equation*}
+        \sum_{n=0}^\infty a_n.
+    \end{equation*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Abel Summation}
+    Abel Summation is a method of regularisation that is motivated
+    by \emph{Abel's theorem}.
+    \begin{theorem}
+        Let $f(x) = \sum_{n=0}^\infty a_n x^n$ be a power
+        series that converges in $(-1,1)$. Suppose
+        that
+        \begin{equation*}
+            \sum_{n=0}^\infty a_n
+        \end{equation*}
+        exists. Then
+        \begin{equation*}
+            \sum_{n=0}^\infty a_n = \lim_{x\rightarrow 1^{-}} \sum_{n=0}^\infty a_nx^n.
+        \end{equation*}
+    \end{theorem}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Abel summation}
+    \begin{definition}
+        Let $\{a_n\}_{n=0}^\infty$ be a sequence, the \emph{Abel sum}
+        of $\{a_n\}_{n=0}^\infty$ is
+        \begin{equation*}
+            _{(A)}\sum_{n=0}^\infty a_n := \lim_{r\rightarrow 1^-} \sum_{n=0}^\infty a_n r^n.
+        \end{equation*}
+    \end{definition}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Abel summation}
+    For example,
+    \begin{align*}
+        _{(A)}\sum_{n=0}^\infty (-1)^n &= \lim_{r\rightarrow 1^-} \sum_{n=0}^\infty (-r)^n \\
+                                       &= \lim_{r\rightarrow 1^-} \frac{1}{1+r}\\
+                                       &= \frac{1}{2}.
+    \end{align*}
+    Abel's theorem guarantees that if a series is summable in the classical
+    sense, then it is Abel summable and the Abel and classical sums agree.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Aside}
+    Using a completely different method of regularisation, we
+    can give rigorous justification to the (infamous) expression,
+    \begin{equation*}
+        1+2+3+4+\cdots = -\frac{1}{12}.
+    \end{equation*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Back to Fourier Series}
+    Let $f \in L^1(\Circ)$, define
+    \begin{equation*}
+        A_r f := \sum_{n \in \Itgr} \widehat{f}(n) r^nz^n.
+    \end{equation*}
+    This exists for any $r$.
+    
+    The question of whether a Fourier series is Abel summable
+    is equivalent to considering the limit $\lim_{r\rightarrow 1^-} A_rf$.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Back to Fourier Series}
+    The following theorem is remarkably easy to prove:
+    \begin{theorem}
+        Suppose that $f \in L^p(\Circ,\ha)$, with $p \in [1,\infty)$. 
+        Then
+        \begin{equation*}
+            f = \lim_{r\rightarrow 1^-} A_r f = _{(A)}\sum_{n \in \Itgr} \widehat{f}(n)z^n
+        \end{equation*}
+        where the limit is in the $L^p$ sense.
+    \end{theorem}
+\end{frame}
+
+\begin{frame}
+    \frametitle{The final word on Fourier Series?}
+    So at last we have rigorous meaning for the expression,
+    \begin{equation*}
+        f = \sum_{n\in \Itgr}\widehat{f}(n)z^n.
+    \end{equation*}
+    We simply need to interpret the right hand side as an Abel sum,
+    converging in the $L^p$ sense, if $f \in L^p(\Circ,\ha)$ and $p \in [1,\infty)$.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Can we do better?}
+    Abel summation is nice, but what really interests
+    us is classical summation. Carleson and Hunt proved the following,
+    \begin{theorem}
+        Suppose that $f \in L^p(\Circ,\ha)$, for $p \in (1,\infty)$, then
+        \begin{equation*}
+            f = \sum_{n\in\Itgr} \widehat{f}(n)z^n
+        \end{equation*}
+        where the sum is a classical sum, converging in the $L^p$ sense.
+    \end{theorem}
+\end{frame} 
+
+\begin{frame}
+    \frametitle{What about the $p = 1$ case?}
+    The theorem spectacularly fails to be true when $p=1$.
+    The following is a result of Kolmogorov,
+    \begin{theorem}
+        There is a function $k \in L^1(\Circ,\ha)$ such that
+        \begin{equation*}
+            \zeta \mapsto \sum_{n\in\Itgr} \widehat{k}(n)\zeta^n
+        \end{equation*}
+        diverges for every $\zeta \in \Circ$.
+    \end{theorem}
+\end{frame}
+
+\begin{frame}
+    \frametitle{What about higher dimensions?}
+    Let $f \in L^1(\Circ^2,\ha\times\ha)$. 
+    Let $z,w:\Circ^2\rightarrow\Circ$ be the first and second coordinate functions.
+    
+    Then we can write,
+    \begin{equation*}
+        f = \lim_{r,s\rightarrow 1^-} \sum_{(n,m) \in \Itgr^2} \widehat{f}(n,m)r^ns^mz^nw^m.
+    \end{equation*}
+    where
+    \begin{equation*}
+        \widehat{f}(n,m) = \int_{\Circ^2} z^{-n}w^{-m} f\;d(\ha\times\ha).
+    \end{equation*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{What about higher dimensions?}
+    In other words, most functions on $\Circ^2$ can be written as a doubly-indexed
+    power series,
+    \begin{equation*}
+        f = \sum_{(n,m) \in \Itgr^2} c_{n,m} z^nw^m
+    \end{equation*}
+    for some  coefficients $c_{n,m}$, and the series converges
+    in ``some sense".
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Non-commutative Geometry}
+    Question: What is non-commutative geometry?
+    
+    \begin{block}
+        {Answer:}   
+            The study of non-commutative algebras which are somehow similar
+            to algebras of functions on geometric spaces, using the methods
+            and language of geometry.
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Introducing the non-commutative torus}
+    Let $\theta$ be an irrational number.
+    \begin{definition}
+        The non-commutative torus $\mathcal{A}(\Circ^2_\theta)$
+        is an algebra over $\Cplx$ such that any $a \in \mathcal{A}(\Circ^2_\theta)$
+        has an expression like,
+        \begin{equation*}
+            a = \sum_{(n,m) \in \Itgr^2} a_{n,m} u^nv^m
+        \end{equation*}
+        which converges in some sense, and $u$ and $v$
+        are elements satisfying
+        \begin{equation*}
+            uv = e^{2\pi i \theta} vu
+        \end{equation*}
+        and $u^*u = uu^* = v^*v = vv^* = 1$.
+    \end{definition}
+    Let us ignore issues of convergence for now. 
+\end{frame}
+
+\begin{frame}
+    \frametitle{The Upshot}
+    The algebra $\mathcal{A}(\Circ^2_\theta)$ is a lot
+    like an algebra of functions on $\Circ^2$,
+    and many techniques of harmonic analysis can be used
+    on $\mathcal{A}(\Circ^2_\theta)$. So this
+    justifies the term ``non-commutative harmonic analysis".
+\end{frame}
+
+\begin{frame}
+    The end!
+\end{frame}
+
+\end{document}
+
