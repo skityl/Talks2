@@ -9,7 +9,7 @@ read: $(NAME).pdf
 	$(READ) $<
 
 clean:
-	rm -f *.log *.aux *~ *.toc *.snm *.nav
+	rm -f *.log *.aux *~ *.toc *.snm *.nav *.out
 
 tea:
 	@echo "Make it yourself."    

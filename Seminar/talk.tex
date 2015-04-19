@@ -18,6 +18,26 @@
 % the bottom of slides
 % \setbeamertemplate{navigation symbols}{}
 \usepackage{graphicx}
+\usepackage{calc}
+
+\newsavebox\CBox
+\newcommand\hcancel[2][0.5pt]{%
+  \ifmmode\sbox\CBox{$#2$}\else\sbox\CBox{#2}\fi%
+  \makebox[0.5pt][l]{\usebox\CBox}%  
+  \rule[0.8\ht\CBox-#1/2]{\wd\CBox}{#1}}
+  
+\makeatletter
+\newenvironment<>{proofs}[1][\proofname]{%
+    \par
+    \def\insertproofname{#1\@addpunct{.}}%
+    \usebeamertemplate{proof begin}#2}
+  {\usebeamertemplate{proof end}}
+\makeatother
+
+  
+  
+  
+
 %\usepackage{bm} % For typesetting bold math (not \mathbold)
 %\logo{\includegraphics[height=0.6cm]{yourlogo.eps}} %
 \title[Harmonic Analysis]{Quantised Calculus and Hankel Operators}
@@ -29,7 +49,17 @@
 \newcommand{\Cplx}{\mathbb{C}}
 \newcommand{\Circ}{\mathbb{T}}
 \newcommand{\Itgr}{\mathbb{Z}}
+\newcommand{\Ntrl}{\mathbb{N}}
 \newcommand{\ha}{\boldsymbol{m}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\Hilb}{\mathcal{H}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\qd}{\hcancel[0.9pt]{d}}
+\newcommand{\sgn}{\operatorname{sgn}}
+\newcommand{\rk}{\operatorname{rank}}
+\newcommand{\BMO}{\operatorname{BMO}}
+\newcommand{\VMO}{\operatorname{VMO}}
+\newcommand{\Proj}{\mathbf{P}}
 % \today will show current date.
 % Alternatively, you can specify a date.
 \begin{document}
@@ -38,19 +68,994 @@
 \end{frame} %
 \begin{frame}
 \frametitle{Introduction}
+    This talk will be divided into two parts:
     \begin{block}
-            {Question for this lecture:}
-                How do Fourier Series work?
+            {Soft Analysis:}
+                The motivation for quantised calculus from non-commutative geometry.
         \end{block}
     \begin{block}
-            {Another Question:}
-                What is the non-commutative torus?
+            {Hard Analysis:}
+                Operator ideal membership of quantised derivatives.
     \end{block}
 \end{frame}
 
 \begin{frame}
-    
+\frametitle{Non-commutative Geometry}
+\begin{block}
+    {What is Non-commutative geometry?}
+        The study of noncommutative algebras which are similar to algebras
+        of functions on geometric spaces, using the methods
+        and language of geometry.
+\end{block}
 \end{frame}
 
-\end{document}
+\begin{frame}
+\frametitle{Why Non-commutative Geometry?}
+Non-commutative geometry gives us new insights on non-commutative algebra,
+but historically it was motivated by quantum mechanics.
+\end{frame}
 
+\begin{frame}
+\frametitle{A very brief description of quantum mechanics}
+\begin{definition}
+    A \emph{quantum mechanical system} is a pair $(\A,\Hilb)$ where
+    $\Hilb$ is a complex separable Hilbert space
+    and $\A$ is a $*$-algebra of (potentially unbounded, densely defined)
+    operators on $\Hilb$. The self adjoint elements of $\A$
+    are called \emph{observables}. The non-zero elements of $\Hilb$ are called
+    \emph{states}.
+\end{definition}
+\begin{itemize}
+\item{} The states correspond to potential configurations of a physical system.
+States which are non-zero scalar multiples of each other are considered physically indistinguishable.
+
+\item{} The observables correspond to physical quantities that can be measured.
+The range of potential measurements for an observable $A \in \A$
+is $\sigma(A)$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Reminder: The spectral theorem}
+\begin{theorem}
+    Let $(\A,\Hilb)$ be a quantum mechanical system. If $A \in \A$
+    is an observable, then there exists a projection
+    valued measure $E_A$ on $\sigma(A)$ such that
+    \begin{equation*}
+            A = \int_{\sigma(A)} \lambda\;dE_A(\lambda).
+    \end{equation*}
+\end{theorem}
+\end{frame}
+
+\begin{frame}
+\frametitle{Measurement in quantum mechanics}
+Let $(\A,\Hilb)$ be a quantum mechanical system, currently in a state $\psi \in \Hilb$. 
+
+Let $A \in \A$ be an observable. The probability that the measured
+value of the physical quantity corresponding to $A$ lies in 
+a borel set $\Delta \subseteq \sigma(A)$ is
+\begin{equation*}
+    P(\Delta;\psi) := \frac{(\psi,E_A(\Delta)\psi)}{\|\psi\|^2} = \frac{\|E_A(\Delta)\psi\|^2}{\|\psi\|^2}.
+\end{equation*}
+
+If the measured value lies in $\Delta$, then the state of the system changes to
+\begin{equation*}
+    {E_A(\Delta)\psi}.
+\end{equation*}
+\end{frame}
+
+\begin{frame}
+\frametitle{Measurement in quantum mechanics}
+There are two surprising features of measurement in quantum mechanics:
+\begin{enumerate}
+    \item{} The act of observation changes the state of the system.
+    \item{} The order of observation is important, since if $A$ and $B$
+    are observables, and $\Delta \times \Sigma \subseteq \sigma(A)\times\sigma(B)$, then
+    in general it is not true that
+    \begin{equation*}
+        E_A(\Delta)E_B(\Sigma)\psi = E_B(\Sigma)E_A(\Delta)\psi.
+    \end{equation*}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{The beginnings of noncommutative geometry}
+A noncommutative space is a ``space" with ``coordinates"
+such that the order of measurement of coordinates
+changes the measured values. 
+
+Inspired by quantum mechanics, we define a noncommutative space
+as a pair $(\A,\Hilb)$ exactly like a quantum mechanical system.
+\end{frame}
+
+\begin{frame}
+\frametitle{Relation to Ordinary Geometry}
+The usual setting for geometry is a Riemannian manifold $M$. Let $\A = C^\infty(M)$
+and $\Hilb = L^2(M)$.
+
+However, we need more information to specify the geometry of the manifold. One way
+to do this is by giving a \emph{Dirac operator}.
+\end{frame}
+
+\begin{frame}
+\frametitle{Dirac Operators}
+Associated to a Riemannian manifold $(M,g)$ is a \emph{clifford bundle}.
+\begin{equation*}
+    \operatorname{Cliff}(M,g) = \frac{T(TM)}{\langle xy+yx = -2g(x,y)\rangle }.
+\end{equation*}
+A vector bundle $V$ on $M$ is called a \emph{clifford module} if there
+is a left multiplication action $m:\operatorname{Cliff}(M,g)\otimes V\rightarrow V$.
+\end{frame}
+
+\begin{frame}
+\frametitle{Dirac Operators}
+\begin{definition}
+    Suppose that $(M,g)$ is a Riemannian manifold with a Clifford module 
+    $V$, and a $V$-valued connection $\nabla:V\rightarrow T^*M\otimes V$. 
+    Then the \emph{Dirac Operator} on $V$ is given by the composition of maps
+    \begin{equation*}
+            V \xrightarrow{\nabla} T^*M \otimes V \xrightarrow{\sharp\otimes I} TM\otimes V \xrightarrow{m} V
+    \end{equation*}
+    where $\sharp$ is the canonical isomorphism from $T^*M$ to $TM$ given by $g$.
+\end{definition}
+\end{frame}
+
+\begin{frame}
+    \begin{theorem}
+        Let $(M,g)$ be a Riemannian manifold with Clifford module $V$
+        and Dirac operator $\D$. Then we have for every $a \in C^\infty(M)$,
+        \begin{equation*}
+            da = [\D,a]
+        \end{equation*}
+        as an equality of operators on the sections of $V$.
+    \end{theorem}
+\end{frame}
+
+\begin{frame}
+\frametitle{Spectral Triples}
+To specify the geometry of non-commutative space $(\A,\Hilb)$, we need
+additional data to tell us how observables relate to each other. An elegant
+way of doing this is by giving a Dirac operator.
+\begin{definition}
+    A \emph{spectral triple} is a triple $(\A,\Hilb,\D)$ where $\Hilb$ is a complex
+    separable Hilbert space and $\A$ is a $*$-algebra of bounded operators on $\Hilb$. 
+    $\D$ is a densely defined unbounded self adjoint operator on $\Hilb$ such that:
+    \begin{enumerate}
+        \item{} $[\D,a]$ is bounded for all $a \in \A$. 
+        \item{} $(\lambda-\D)^{-1}$ is compact for all $\lambda \in \Cplx\setminus \Rl$.
+    \end{enumerate}
+\end{definition}
+The prototypical example is a Riemannian manifold $M$
+with a Clifford module, where $\A = C^\infty(M)$, $\Hilb = L^2(V)$
+and $\D$ is the Dirac operator of the module.
+\end{frame}
+
+\begin{frame}
+\frametitle{Properties of Spectral Triples}
+\begin{definition}
+    Let $k \geq 0$ be an integer. We say that a spectral triple $(\A,\Hilb,\D)$
+    is $QC^k$ if for any $a \in \A$, $a$ and $[\D,a]$ are in the domain of $\delta^k(a)$,
+    where $\delta(a) := [|\D|,a]$.
+\end{definition}
+\begin{definition}
+    Let $p > 0$. A spectral triple $(\A,\Hilb,\D)$ is called $(p,\infty)$ summable
+    if $(\lambda-\D)^{-1} \in \mathcal{L}^{p,\infty}$ for $\lambda \in \Cplx\setminus \Rl$. $p$
+    is analogous to the dimension of the space.
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\frametitle{Differentials in abstract algebra}
+\begin{definition}
+    Let $A$ be a $\Cplx$-algebra, and $M$ is an $A$-bimodule. 
+    A $\Cplx$-linear map $\theta:A\rightarrow M$ is called
+    a derivation if $\theta(ab) = a\theta(b) + \theta(a)b$ for all
+    $a,b \in A$. 
+\end{definition}
+\begin{example}
+    Let $N$ be a manifold.
+    We can take $A = C^\infty(N)$ and $M = \Omega^1(N)$,
+    and $\theta = d$.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\frametitle{K\"ahler Differentials}
+For a $\Cplx$-algebra $\A$, there is a ``largest" $A$-bimodule that
+is the image of a derivation on $\A$. 
+\begin{definition}
+    Let $A$ be a $\Cplx$-algebra. There is a multiplication
+    map $\gamma:A\otimes A\rightarrow A$. Define 
+    \begin{equation*}
+        \Omega^1(A) := \ker\gamma.
+    \end{equation*}
+    And $d:A\rightarrow \Omega^1(A)$ is given by $a\mapsto 1\otimes a-a\otimes 1$.
+    This is the algebra of \emph{K\"ahler differentials}.
+\end{definition}    
+\end{frame}
+
+\begin{frame}
+\frametitle{K\"ahler differentials}
+The utility of K\"ahler differentials comes from the universal property:
+\begin{theorem}
+    Let $A$ be a $\Cplx$-algebra, and $M$ is an $A$-bimodule 
+    with a derivation $\theta:A\rightarrow M$. Then there exists
+    a unique $A$-module homomorphism $\tilde{\theta}:\Omega^1(A)\rightarrow M$ such that
+    $\theta = \tilde{\theta}\circ d$. 
+\end{theorem}
+\end{frame}
+
+\begin{frame}
+\frametitle{Connes Differentials}
+Given a spectral triple, $(\A,\Hilb,\D)$, and $a \in \A$, we define
+\begin{equation*}
+    \pi:\Omega^1(\A)\rightarrow \mathcal{B}(\Hilb)
+\end{equation*}
+by 
+\begin{equation*}
+    da \mapsto [\D,a].
+\end{equation*}
+Define the two-sided ideal of $\mathcal{B}(\Hilb)$, $J$ as
+\begin{equation*}
+    J = \{t \in \Omega^1(\A)\;:\; \pi(t) = 0\}.
+\end{equation*}
+and $J_0 = J+dJ$.
+Then,
+\begin{equation*}
+    \Omega^1_\D(\A) := \frac{\pi(\Omega^1(\A))}{\pi(dJ_0)}.
+\end{equation*}
+\end{frame}
+
+\begin{frame}
+\frametitle{Infinitesimals}
+$17$-$19$th century mathematicians made frequent use of \emph{infinitesimals}. 
+An infintesimal was a quantity $x$ such that for all $\varepsilon > 0$, we have
+\begin{equation*}
+    |x| < \varepsilon.
+\end{equation*}
+Of course, this implies that $x = 0$, so the use of non-zero infinitesimals was
+abolished.
+\end{frame}
+
+\begin{frame}
+\frametitle{Infinitesimal Operators}
+An infinitesimal operator $T \in \mathcal{B}(\Hilb)$ should be an operator
+$T$ such that for any $\varepsilon > 0$, we have
+\begin{equation*}
+    \|T\| < \varepsilon.
+\end{equation*}
+
+Again, this definition is useless as it implies that $T = 0$.
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Compact Operators as Infinitesimals}
+We shall say that an operator $T \in \mathcal{B}(\Hilb)$
+is \emph{infinitesimal} if for any $\varepsilon > 0$
+there exists a finite dimensional subspace $E$
+such that
+\begin{equation*}
+    \|T|_{E^\perp}\| < \varepsilon.
+\end{equation*}
+This is equivalent to saying that $T$ is compact.
+\end{frame}
+
+\begin{frame}
+\frametitle{Infinitesimals in Non-commutative geometry}
+In a noncommutative geometry $(\A,\Hilb,\D)$, the compact
+elements of $\A$ play a similar role to infinitesimals
+in classical real analysis.
+
+We have the following dictionary:\\
+
+\begin{tabular}{l | r}
+Classical Analysis & Non-commutative Analysis\\
+\hline
+Function & Operator\\
+One-form & Connes Differential\\
+Range & Spectrum\\
+Infinitesimal & Compact Operator\\
+    
+\end{tabular}
+\end{frame}
+
+\begin{frame}
+\frametitle{Quantised Differentials}
+In noncommutative geometry, we have a new object
+that is not present in classical analysis called a quantised
+derivative or quantised differential.
+\begin{definition}
+    Let $(\A,\Hilb,\D)$ be a spectral triple. Let $F$
+    be the unique operator such that $\D = F|\D|$, that
+    is $F = \sgn(\D)$. For $a \in \A$, define
+    \begin{equation*}
+        \qd a := [F,a].
+    \end{equation*}
+    This is the \emph{quantised differential} of $a$.
+\end{definition}
+$\qd a$ is supposed to represent an infinitesimal variation
+of $a$. The motivation behind this definition is not clear, but as
+we work through examples it will become clear that this definition
+is the ``correct" one.
+\end{frame} 
+
+
+\begin{frame}
+\frametitle{Expected properties of infinitesimals}
+In classical $17$-$19$th century analysis, infinitesimals
+were supposed to have a number of properties:
+\begin{enumerate}
+    \item{} If $f:\Rl\rightarrow \Rl$ is a function, there
+    is a function $df$ representing
+    infinitesimal variation in $f$. $f$ is continuous
+    if and only if $df$ is infinitesimal.
+    \item{} If $f$ is smoother than $g$, then $df$ is smaller
+    than $dg$.
+    \item{} If $x$ is a positive infinitesimal, then $x^2$
+    is smaller than $x$.
+    \item{} If $f$ is a differentiable function, then $df = f' dx$,
+    provided that sufficiently small infinitesimals
+    are ignored. 
+\end{enumerate}
+We shall see that the quantised differential satisfies
+all these properties, if they are interpreted correctly.
+\end{frame}
+
+\begin{frame}
+\frametitle{Sizes of Infinitesimals}
+\begin{definition}
+    Given $T \in \mathcal{B}(\Hilb)$, define the $k$th
+    singular value of $T$ to be
+    \begin{equation*}
+        \mu_k(T) := \inf\{\|T-A\|\;:\;\rk(A) \leq k\}.
+    \end{equation*}
+\end{definition}
+For a compact operator, $\{\mu_k(T)\}_{k=0}^\infty$ is a
+vanishing sequence of positive numbers. We
+shall describe the \emph{size} of an infinitesimal
+$T$ as the \emph{rate of decay} of $\{\mu_k(T)\}_{k=0}^\infty$.
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Sizes of Infinitesimals}
+\begin{theorem}
+    Let $T$ and $S$ be compact operators in $\mathcal{B}(\Hilb)$. Then
+    for every $k \geq 0$,
+    \begin{equation*}
+        \mu_k(TS) \leq \mu_k(T)\mu_k(S).
+    \end{equation*}
+\end{theorem}
+Hence, if $T$ is an infinitesimal, then $T^2$ is a smaller infinitesimal.
+\end{frame}
+
+\begin{frame}
+\frametitle{Sizes of Infinitesimals}
+We can quantify the sizes an infinitesimal $T$ by placing conditions
+on the rate of decay of $\{\mu_k(T)\}_{k=0}^\infty$.
+\begin{itemize}
+    \item{} The smallest infinitesimals have $\{\mu_k(T)\}_{k=0}^\infty$
+    of finite support. Then $T$ is of finite rank.
+    \item{} We say that $T \in \mathcal{L}^p$ if $\{\mu_k(T)\}_{k=0}^\infty \in \ell^p$.
+    \item{} We say that $T \in \mathcal{L}^{p,\infty}$ if $\mu_k(T) = \mathcal{O}(k^{-1/p})$.
+    \item{} We say that $T \in \mathcal{L}^{p,q}$ if $\{k^{1/p-1/q}\mu_k(T)\}_{k=0}^\infty \in \ell^q$.
+    \item{} We say that $T \in \mathcal{M}^{1,\infty}$ if $\{\frac{1}{\log(k+1)}\sum_{n=0}^k \mu_k(T)\}_{k=0}^\infty \in \ell^\infty$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{An initial result about quantised differentials}
+\begin{lemma}
+    Suppose that $(\A,\Hilb,\D)$ is a $QC^1$, $(p,\infty)$-summable spectral triple, 
+    where we assume that $\D$ is invertible. Then for
+    all $a \in \A$, $\qd a \in \mathcal{L}^{p,\infty}$.
+\end{lemma}
+\begin{proof}
+    It can be proved that $|\D|^{-1} \in \mathcal{L}^{p,\infty}$. Now we write,
+    \begin{align*}
+        [\D,a] &= [F|\D|,a]\\
+        &= F[|\D|,a] + [F,a]|\D|.
+    \end{align*}
+    Hence,
+    \begin{align*}
+        \qd a &= [\D,a]|\D|^{-1}-F[|\D|,a]|\D|^{-1}\\
+              &= (da-F\delta(a))|\D|^{-1}.
+    \end{align*}
+    Therefore $\qd a \in \mathcal{L}^{p,\infty}$.
+\end{proof}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Smoothness and rate of decay}
+We now enter the second phase of the talk ``Hard Analysis".
+
+Recall that in classical analysis, we had the statement
+that if $f$ is smoother than $g$, then $df$ is smaller than $dg$.
+\begin{block}
+{The main question of this talk:}
+In what sense is it true that if $f$ is smoother than $g$,
+then $\qd f$ is smaller than $\qd g$?
+\end{block}
+We shall restrict attention to functions on the circle $\Circ$
+and the line $\Rl$.
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Revision of Classical Fourier Analysis and Notation}
+We define $\Circ = \{\zeta \in \Cplx\;:\;|\zeta| = 1\}$.
+Let $z:\Circ\to\Circ$ be the identity function. 
+Denote the normalised Haar (or arc length) measure on $\Circ$ by $\ha$. 
+
+For $f \in L^1(\Circ,\ha)$, define for $n \in \Itgr$,
+\begin{equation*}
+    \widehat{f}(n) := \int_\Circ z^{-n} f\;d\ha.
+\end{equation*}
+
+Recall that any $f \in L^2(\Circ,\ha)$ can be written as
+\begin{equation*}
+    f = \sum_{n \in \Itgr} \widehat{f}(n)z^n.
+\end{equation*}
+The sum converges in the $L^2$ sense. This effects
+an isometric isomorphism between $L^2(\Circ)$ and $\ell^2(\Itgr)$.
+\end{frame}
+
+\begin{frame}
+\frametitle{Revision of Classical Fourier Analysis and Notation}
+The closed linear span of $\{z^n\}_{n=0}^\infty$ in $L^p$ is denoted
+$H^2(\Circ)$, and the orthogonal complement is denoted $H^2_-(\Circ)$.
+
+We define the space of polynomials $\mathcal{P}(\Circ)$
+to be the finite linear span of $\{z^n\}_{n\in \Itgr}$. 
+$P_A(\Circ) = \operatorname{span}\{z^n\}_{n\geq 0}$. 
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Differentials on $\Circ$}
+
+ The Dirac
+operator on the circle is $\D = \frac{1}{i}\frac{d}{d\theta}$, i.e.,
+$\D(z^n) = nz^n$. So we may describe $F = \sgn\D$ as the \emph{Hilbert transform}, 
+\begin{equation*}
+    F\left(\sum_{n\in \Itgr} a_nz^n\right) = \sum_{n\in \Itgr} \sgn(n)a_nz^n.
+\end{equation*}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+\frametitle{Differentials on $\Circ$}
+Hence for $f \in L^2(\Circ)$, 
+\begin{equation*}
+    Ff = \varphi * f
+\end{equation*} 
+where
+\begin{equation*}
+    \varphi = \sum_{n\in\Itgr} \sgn(n)z^n = \frac{1}{1-z}-\frac{z^{-1}}{1-z^{-1}} = \frac{2}{1-z}.
+\end{equation*}
+
+   Thus, 
+\begin{align*}
+    (\qd f)g &= ([F,f]g)(t) \\
+    &= 2\lim_{\varepsilon \to 0} \int_{|\tau-t| > \varepsilon} \frac{f(t)-f(\tau)}{t-\tau}g(\tau)\;d\ha(\tau).
+\end{align*} 
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Finite rank differentials}
+Let $f:\Circ\rightarrow \Cplx$. The strictest
+condition we can put on the smoothness
+of $f$ is that $f$ is a rational function.
+The strictest condition we can put on the size of $\qd f$
+is that $\qd f$ is finite rank.
+These two conditions are equivalent.
+\begin{theorem}[Kronecker]
+    If $f:\Circ\rightarrow \Cplx$, then $\qd f$ is finite rank
+    if and only if $f$ is a rational function.
+\end{theorem}   
+\end{frame}
+
+\begin{frame}
+\frametitle{Bounded differentials}
+Let $f:\Circ\rightarrow \Cplx$. The weakest condition
+that we can place on $\qd f$ is that $\qd f$ is bounded.
+\begin{definition}
+    Let $f:\Circ\rightarrow \Cplx$ be measureable. We say that $f$ is of \emph{bounded mean
+    oscillation} if for an arc $I \subseteq \Circ$, define
+    \begin{equation*}
+        f_I = \frac{1}{\ha(I)}\int_I f\;d\ha
+    \end{equation*}
+    and
+    \begin{equation*}
+        \sup_{I} \frac{1}{\ha(I)}\int_I |f-f_I|\;d\ha < \infty
+    \end{equation*}
+    where the supremum runs over all arcs $I$.
+    The set of functions with bounded mean oscillation is denoted $\BMO(\Circ)$.
+\end{definition}
+\end{frame} 
+
+\begin{frame}
+\frametitle{Bounded differentials}
+\begin{theorem}[Nehari]
+    Let $f:\Circ\rightarrow \Cplx$. Then $\qd f$ is bounded
+    if and only if $f \in \BMO(\Circ)$.
+\end{theorem}
+\end{frame}
+
+\begin{frame}
+\frametitle{Compact differentials}
+We define the space $\VMO(\Circ)$,
+\begin{definition}
+    We say that $f \in \VMO(\Circ)$ if $f \in \BMO(\Circ)$
+    and
+    \begin{equation*}
+        \lim_{\ha(I)\rightarrow 0} \frac{1}{\ha(I)}\int_I |f-f_I|\;d\ha = 0.
+    \end{equation*}
+\end{definition}
+\begin{theorem}
+    If $f:\Circ\rightarrow \Cplx$, then $\qd f$ is compact if and only if $f \in \VMO(\Circ)$.
+\end{theorem}
+\end{frame}
+
+\begin{frame}
+\frametitle{Can we do better?}
+We seek a more precise characterisation of the relationship between
+the smoothness
+of $f$ and the size of $\qd f$. To this end, we define the \emph{Besov classes} $B^s_{pq}$.
+\end{frame}
+
+\begin{frame}
+\frametitle{Definition of $B_{pq}^s$} 
+We define a sequence of polynomials $\{W_n\}_{n\in \Itgr}$ on
+$\Circ$ as follows.
+\begin{enumerate}
+    \item{} $W_0 = z^{-1}+1+z$.
+    \item{} For $n > 0$ and $k > 0$,
+    \begin{equation*}
+        \widehat{W}_n(k) = \begin{cases}
+            1,\text{ if }k = 2^n\\
+            \text{a linear function on }[2^{n-1},2^n]\text{ and }[2^n,2^{n+1}]\\
+            0,\text{ otherwise.}
+        \end{cases}
+    \end{equation*}
+    and $\widehat{W}_n(-k) = \widehat{W}_n(k)$, and $\widehat{W}_n(0) = 0$.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Definition of $B^s_{pq}$}
+\begin{definition}
+    For an integrable function $\varphi$ on $\Circ$, we say that $f \in B_{pq}^s(\Circ)$
+    if
+    \begin{equation*}
+        \sum_{n\in \Itgr} 2^{|n|sp} \|W_n*\varphi\|_{p}^q < \infty.
+    \end{equation*}
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\frametitle{Quantised differentials of Schatten-Von Neumann class}
+\begin{theorem}[Peller]
+    Let $f$ be a measurable function on $\Circ$
+    and $p > 0$. Then $\qd f \in \mathcal{L}^p$ if and only
+    if $f \in B_{pp}^{1/p}(\Circ)$.
+\end{theorem}
+\end{frame}
+
+\begin{frame}
+\frametitle{Can we do better?}
+Similar necessary and sufficient conditions can be found on $f$
+such that $\qd f \in \mathcal{L}^{p,q}$.
+
+Let us see how to prove these results.
+\end{frame}
+
+\begin{frame}
+\frametitle{Hankel Operators}
+A \emph{Hankel matrix} is an infinite matrix $\{a_{j+k}\}_{j,k \geq 0}$,
+\begin{equation*}
+    \begin{pmatrix}
+        a_0 & a_1 & a_2 & a_3 & \cdots\\
+        a_1 & a_2 & a_3 & a_4 & \cdots\\
+        a_2 & a_3 & a_4 & a_5 & \cdots\\
+        a_3 & a_4 & a_5 & a_6 & \cdots\\
+        \vdots & \vdots & \vdots & \vdots & \ddots
+    \end{pmatrix}
+\end{equation*}
+There is a direct link between Hankel operators and quantised differentials
+on the circle.
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Hankel operators and quantised differentials} 
+\begin{theorem}
+    Let $\varphi \in L^1(\Circ)$, and $M_\varphi$
+    is the densely defined pointwise multiplication operator
+    on $L^2(\Circ)$. Let $\Proj_-$ be the projection,
+    \begin{equation*}
+        \Proj_-\left(\sum_{n \in \Itgr} a_nz^n\right) = \sum_{n < 0} a_nz^n.
+    \end{equation*}
+    Then $H_\varphi := \Proj_-M_\varphi|_{H^2(\Circ)}$ is a Hankel matrix
+    when represented in the bases $\{z^n\}_{n=0}^\infty$ and $\{z^{n}\}_{n < 0}$
+    with $(j,k)$th entry $\widehat{\varphi}(-j-k)$ for $j \geq 0$ and $k \geq 1$.
+\end{theorem}   
+\end{frame}
+
+\begin{frame}
+\frametitle{Hankel operators and quantised differentials} 
+    The link between Hankel operators and quantised differentials is provided
+    by the following result:
+    \begin{theorem}
+        Let $\varphi \in L^1(\Circ)$. Let $\varphi_- = \Proj_-\varphi$ and $\varphi_+ = (1-\Proj_-)\varphi$. Then,
+        \begin{equation*}
+            \qd \varphi = 2((H_{\varphi_+})^*-H_{\varphi_-})
+        \end{equation*}
+    \end{theorem}
+\end{frame}
+
+\begin{frame}
+\frametitle{Symbol of a Hankel Operator}
+\begin{definition}
+    Let $\varphi \in L^1(\Circ)$. Let $\Gamma_\varphi$
+    be the infinite Hankel matrix with $(j,k)$th entry $\widehat{\varphi}(j+k)$.
+\end{definition}
+From now on, it suffices to study the properties of $\Gamma_\varphi$. 
+\end{frame}
+
+\begin{frame}
+\frametitle{Bounded Hankel Operators}
+\begin{theorem}[Nehari]
+    The Hankel operator $\Gamma_\varphi$ defines a bounded linear
+    operator on $\ell^2(\Ntrl)$ if and only if $\varphi \in \BMO(\Circ)$.
+\end{theorem}
+\end{frame}
+
+\begin{frame}
+\frametitle{A result of Fefferman}
+    To begin proving the Nehari theorem, we need the following result
+    of C. Fefferman.
+    \begin{theorem}
+        The set $\BMO(\Circ)$ is exactly
+        \begin{equation*}
+            \BMO(\Circ) = \{f+\Proj_-g\;:\;f,g \in L^\infty(\Circ)\}.
+        \end{equation*}
+    \end{theorem}
+\end{frame}
+
+\begin{frame}
+\frametitle{The Boundedness of Hankel operators}
+\begin{theorem}[Nehari]
+    Let $T = \{\alpha_{j+k}\}_{j,k\geq 0}$ be an infinite Hankel
+    matrix defined by the sequence $\alpha$. $T$ defines
+    a bounded linear operator on $\ell^2(\Ntrl)$ if and only if 
+    there exists a function $\psi \in L^\infty(\Circ)$ such that
+    $\alpha_n = \widehat{\psi}(n)$ for all $n\geq 0$,
+    and
+    \begin{equation*}
+        \|T\| \leq \|\psi\|_\infty.
+    \end{equation*}
+\end{theorem}
+\begin{proofs}
+    Suppose that there exists such a $\psi$. Let $a$ and $b$ be finitely supported
+    sequences, and compute the inner product:
+    \begin{equation*}
+        (Ta,b) = \sum_{j,k \geq 0} \alpha_{j+k}a_j\overline{b_k}.
+    \end{equation*} 
+    
+\end{proofs}
+\end{frame}
+
+\begin{frame}
+\begin{proofs}[Proof (Cont.)]
+    Let 
+    \begin{equation*}
+        f = \sum_{n=0}^\infty a_n z^n,\;g = \sum_{n=0}^\infty \overline{b_n} z^n
+    \end{equation*}
+    and let $q = fg$. Hence,
+    \begin{align*}
+        (Ta,b) &= \sum_{j,k\geq 0} a_j\overline{b_k} \widehat{\psi}(j+k)\\
+               &= \sum_{n\geq 0} \widehat{\psi}(n)\sum_{k=0}^n a_k\overline{b_{n-k}}\\
+               &= \sum_{n\geq 0} \widehat{\psi}(n)\widehat{q}(n)\\
+               &= \int_\Circ \psi(\zeta)q(\overline{\zeta})\;d\ha(\zeta).
+    \end{align*} 
+\end{proofs}
+\end{frame}
+
+\begin{frame}
+\begin{proofs}[Proof (Cont.)]
+    Hence,
+    \begin{equation*}
+        |(Ta,b)| \leq \|\psi\|_\infty \|q\|_1 \leq \|\psi\|_\infty \|f\|_2\|g\|_2 = \|\psi\|_\infty \|a\|_2\|b\|_2.
+    \end{equation*}
+    Hence $T$ is bounded on $\ell^2(\Ntrl)$.
+\end{proofs}
+\end{frame}
+
+\begin{frame}
+\begin{proofs}[Proof (Cont.)]
+    Now we prove the converse. Suppose that $T$ is bounded on $\ell^2(\Ntrl)$. 
+    
+    Define $\mathcal{L}$ on $\mathcal{P}_A(\Circ)$
+    \begin{equation*}
+        \mathcal{L}q = \sum_{n\geq 0} \alpha_n\widehat{q}(n).
+    \end{equation*}
+    
+    Assume $\alpha \in \ell^1(\Ntrl)$. In this case, $\mathcal{L}$
+    is continuous on $H^1(\Circ)$. Let $q \in H^1(\Circ)$
+    with $\|q\|_1 \leq 1$. Then $q = fg$ for $f,g\in H^2(\Circ)$
+    with $\|f\|_2,\|g\|_2 \leq 1$. Hence,
+    \begin{align*}
+        \mathcal{L}q &= \sum_{m \geq 0} \alpha_m\widehat{q}(m)\\
+        &= \sum_{m\geq 0} \alpha_m \sum_{j=0}^m \widehat{f}(j)\widehat{g}(m-j).
+    \end{align*}
+    
+\end{proofs}    
+\end{frame}
+
+\begin{frame}
+\begin{proofs}[Proof (Cont.)]
+    Hence, if we define $a_j = \widehat{f}(j)$ and $b_j = \overline{\widehat{b}(j)}$,
+    \begin{align*}
+        \mathcal{L}q &= \sum_{m\geq 0} \alpha_m \sum_{j=0}^m \widehat{f}(j)\widehat{g}(m-j)\\
+        &= (Ta,b).
+    \end{align*}
+    Thus,
+    \begin{equation*}
+        |\mathcal{L}q| \leq \|T\|\|f\|_2\|g\|_2 \leq \|T\|.
+    \end{equation*}
+\end{proofs} 
+\end{frame}
+
+\begin{frame}
+\begin{proofs}[Proof (Cont.)]
+    Now let $\alpha$ be an arbitrary sequence such that $\|T\|$ is bounded. 
+    
+    Let $0 < r < 1$. Define the sequence $\alpha^{(r)}$
+    by
+    \begin{equation*}
+        \alpha^{(r)}_j = r^j\alpha_j
+    \end{equation*}
+    for $j \geq 0$. 
+    
+    Let $T^{(r)}$ be the Hankel matrix $\{\alpha^{(r)}_{j+k}\}_{j,k \geq 0}$. 
+    
+    Let $D_r$ be the operator of multiplication by $\{r^j\}_{j\geq 0}$ on
+    $\ell^2(\Ntrl)$. Then we can compute that $T^{(r)} = D_rTD_r$. 
+    Hence $T^{(r)}$ is bounded, and $\|T^{(r)}\| \leq \|T\|$. 
+\end{proofs}
+\end{frame}
+
+\begin{frame}
+\begin{proofs}[Proof (Cont.)]
+    Let
+    \begin{equation*}
+        \mathcal{L}_rq = \sum_{n\geq 0} \alpha^{(r)}_n\widehat{q}(n).
+    \end{equation*}
+    Since $\alpha^{(r)} \in \ell^2(\Ntrl)$, we have already
+    proved that $\|\mathcal{L}\|_{H^1\to\Cplx} \leq \|T^{(r)}\| \leq \|T\|$.
+    
+    Now the functionals $\{\mathcal{L}^{(r)}\}_{r \in (0,1)}$ are
+    uniformly bounded and converge strongly to $\mathcal{L}$. 
+    
+    Hence, $\mathcal{L}$ is continuous.
+\end{proofs}
+\end{frame}
+
+\begin{frame}
+\begin{proof}[Proof (Cont.)]
+    We have shown that $\mathcal{L}$ is bounded on $H^1(\Circ)$
+    with norm bounded by $\|T\|$. Hence
+    by the Hahn Banach theorem
+    there is $\psi \in L^\infty$ such that $\mathcal{L}q = (\psi,q)$,
+    and $\|\psi\|_\infty \leq \|T\|$.
+    
+    This completes the proof.
+\end{proof}
+\end{frame}
+
+\begin{frame}
+\frametitle{Reformulation in terms of $H_\varphi$}
+Recall that we defined
+\begin{equation*}
+    H_\varphi = \Proj_- M_\varphi|_{H^2(\Circ)}.
+\end{equation*}
+For $\varphi \in L^1(\Circ)$. This has matrix
+representation $\{\widehat{\varphi}(-j-k)\}_{j\geq 1,k\geq 0}$. 
+Hence, $H_\varphi$ is bounded if and only if there exists $\psi \in L^\infty(\Circ)$
+such that
+\begin{equation*}
+    \widehat{\varphi}(-j) = \widehat{\psi}(j).
+\end{equation*}
+And hence $\Proj_- \varphi \in \BMO(\Circ)$. Conversely,
+if $\Proj_-\varphi \in \BMO(\Circ)$, then such a $\psi$
+exists. 
+\end{frame}
+
+\begin{frame}
+\frametitle{Back to quantised derivatives}
+Recall that
+\begin{equation*}
+    \qd \varphi = 2((H_{\varphi_-})^*-H_{\varphi_+}).
+\end{equation*}
+Since the two Hankel operators act on orthogonal complements, we
+see that $\qd \varphi$ is bounded if and only if $H_{\varphi_+}$
+and $H_{\varphi_-}$ are bounded. Hence
+\begin{theorem}
+    $\qd \varphi$ is bounded if and only is $\varphi \in \BMO(\Circ)$.
+\end{theorem}
+\end{frame}
+
+\begin{frame}
+\frametitle{Finite rank Hankel operators}
+Now let us prove Kronecker's theorem.
+\begin{theorem}
+    Let $\varphi \in \BMO(\Circ)$.
+    $\Gamma_\varphi$ is of finite rank if and only if $\varphi$ is a rational
+    function.
+\end{theorem}
+Recall that $\Gamma_\varphi$ is the Hankel matrix with $(j,k)$th entry $\widehat{\varphi}(j+k)$.
+\begin{proofs}
+    First assume that $\Gamma_\varphi$ is a finite rank operator on $\ell^2(\Ntrl)$. 
+    Let $\rk(\Gamma_\varphi) = n$. Then the first $n+1$
+    columns of $\Gamma_\varphi$ are linearly dependent. 
+\end{proofs}
+\end{frame} 
+ 
+\begin{frame}
+\begin{proofs}[Proof (Cont.)]
+    Let $F$ be the operator on $H^2(\Circ)$ that is ``forward shift", that is
+    \begin{equation*}
+        F\left(\sum_{n=0}^\infty a_nz^n\right) = \sum_{n=0}^\infty a_{n+1} z^n.
+    \end{equation*}
+    and $B$ is ``backward shift", so $Bf(\zeta) = \zeta f(\zeta)$. 
+    
+    The first $n+1$ columns of $\Gamma_\varphi$ being linearly dependent
+    means that there are non-trivial scalars $\{c_j\}_{j=0}^n$
+    such that 
+    \begin{equation*}
+        c_0\varphi + c_1 F\varphi + \cdots + c_nF\varphi = 0.
+    \end{equation*}
+\end{proofs}
+\end{frame}  
+
+\begin{frame}
+\begin{proofs}[Proof (Cont.)]
+    For a function $f \in L^2(\Circ)$, it is easy to see that
+    \begin{equation*}
+        B^n F^k f = B^{n-k}f - B^{n-k}\sum_{j=0}^{k-1} \widehat{f}(j)z^j.
+    \end{equation*}
+    Hence, since
+    \begin{equation*}
+        \sum_{k=0}^n c_k F^k \varphi = 0
+    \end{equation*}
+    we conclude that
+    \begin{equation*}
+        0 = \sum_{k=0}^n c_k B^n F^k \varphi = \sum_{k=0}^n c_kB^{n-k}\varphi - p,
+    \end{equation*}
+    where $p$ is a polynomial.
+    Let $q = \sum_{k=0}^n c_{n-k}z^k$. Hence $q\varphi = p$,
+    so $\varphi$ is a rational function.
+\end{proofs}
+\end{frame}
+
+\begin{frame}
+\begin{proofs}[Proof (Cont.)]
+    Now we prove the converse. Suppose that $\varphi = p/q$
+    for polynomials $p$ and $q$ such that $\deg(p) \leq n-1$
+    and $\deg(q) \leq n$. Again, let
+    \begin{equation*}
+        q = \sum_{j=0}^n c_{n-j}z^j.
+    \end{equation*}
+    Hence since $\varphi q = p$, we have
+    \begin{equation*}
+        \sum_{j=0}^n c_j B^{n-j} \varphi = 0.
+    \end{equation*}
+\end{proofs}
+\end{frame}
+
+\begin{frame}
+\begin{proofs}[Proof (Cont.)]
+    Hence,
+    \begin{align*}
+        F^n \sum_{j=0}^n c_j B^{n-j} \varphi &= \sum_{j=0}^n c_jF^j\alpha \\
+        &= 0.
+    \end{align*}
+    Which means that the first $n+1$ rows of $\Gamma_\varphi$
+    are linearly dependent. 
+    
+    Let $m \leq n$ be the largest number such that $c_m \neq 0$. 
+    Then $F^m \varphi$ is a linear combination
+    of the $F^j\varphi$ with $j \leq m-1$:
+    \begin{equation*}
+        F^m \varphi = \sum_{j=0}^{m-1}d_j F^j \varphi,
+    \end{equation*} 
+    for some nontrivial choice of scalars $\{d_j\}_{j=0}^{m-1}$. 
+\end{proofs}
+\end{frame}
+
+\begin{frame}
+\begin{proof}
+    Let us proceed by induction to show that any row of $\Gamma_\varphi$
+    is a linear combination of the first $m$ rows. Let $k > m$. We have
+    \begin{align*}
+        F^k\varphi &= F^{k-m}F^m\varphi\\
+                   &= \sum_{j=0}^{m-1} d_j F^{k-m+j}\varphi
+    \end{align*}
+    Since for each $0 \leq j \leq m-1$, we have $k-m+j < k$,
+    by the inductive hypothesis the right hand side is a linear
+    combination of the first $m$ rows. Thus $\rk(\Gamma_\varphi) \leq m$.
+\end{proof}
+\end{frame}
+
+\begin{frame}
+\frametitle{Finite rank quantised derivatives}
+It is now straightforward to show that:
+\begin{theorem}
+    $\qd \varphi$ is finite rank if and only if $\varphi$
+    is a rational function.
+\end{theorem}
+\end{frame}
+
+\begin{frame}
+\frametitle{Compactness of quantised derivatives}
+Recall that in classical analysis, we could claim that
+$f$ is continuous if and only if $df$ is infinitesimal. 
+
+Since,
+\begin{equation*}
+    \|\qd \varphi\| = \|[\sgn(\D),M_\varphi]\| \leq 2\|\varphi\|_\infty,
+\end{equation*}
+and $\varphi$ a rational function implies that $\qd \varphi$
+is of finite rank, we obtain
+\begin{theorem}
+    Let $\varphi \in C(\Circ)$. Then $\qd \varphi$ is compact (i.e.,
+    infinitesimal).
+\end{theorem}
+\end{frame}
+
+\begin{frame}
+\frametitle{Compact Hankel operators}
+It can be proved that
+\begin{theorem}
+    Let $\varphi \in L^2(\Circ)$. Then $H_\varphi$ is compact
+    if and only if $\Proj_-\varphi \in \VMO(\Circ)$.
+\end{theorem}
+Consequently $\qd \varphi$ is compact if and only if $\varphi \in \VMO(\Circ)$.
+\end{frame}
+
+\begin{frame}
+\frametitle{Trace class Hankel operators}
+\begin{theorem}
+    Let $\varphi$ be a function holomorphic
+    in the unit disc. Then
+    $\Gamma_\varphi \in \mathcal{L}^1$ if and only if $\varphi \in B_{11}^1(\Circ)$.
+\end{theorem}
+Recall that $\varphi \in B_{11}^1(\Circ)$ means
+that
+\begin{equation*}
+    \sum_{n\geq 0} 2^{|n|} \|W_n*\varphi\|_1 < \infty.
+\end{equation*}
+\end{frame}
+
+\begin{frame}
+\frametitle{A lemma about $\mathcal{L}^1$ norms}
+\begin{lemma}
+    Let $f \in \mathcal{P}_A(\Circ)$, an analytic polynomial
+    of degree at most $m$. Then
+    \begin{equation*}
+        \|\Gamma_f\|_1 \leq (m+1)\|f\|_1.
+    \end{equation*}
+\end{lemma}
+\end{frame}
+
+
+\end{document}
