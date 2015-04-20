@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2014.10.5)  20 APR 2015 19:29
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2014.10.5)  20 APR 2015 22:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1064,11 +1064,11 @@ LaTeX Font Warning: Font shape `OT1/cmss/bx/it' undefined
 \tf@snm=\write8
 \openout8 = `talk.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1246.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1246.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1257.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1257.
  (./talk.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1246.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1246.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1257.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1257.
 
 Package rerunfilecheck Info: File `talk.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
@@ -1080,12 +1080,12 @@ LaTeX Font Warning: Size substitutions with differences
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1246.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1257.
  ) 
 Here is how much of TeX's memory you used:
  16174 strings out of 493315
  296551 string characters out of 6145893
- 376180 words of memory out of 5000000
+ 376174 words of memory out of 5000000
  19072 multiletter control sequences out of 15000+600000
  18142 words of font info for 66 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
@@ -1101,7 +1101,7 @@ re/texmf/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/share/texmf/fonts/type
 1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/public/amsfonts/c
 m/cmsy6.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/sh
 are/texmf/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on talk.pdf (83 pages, 349942 bytes).
+Output written on talk.pdf (83 pages, 350779 bytes).
 PDF statistics:
  2318 PDF objects out of 2487 (max. 8388607)
  2183 compressed objects within 22 object streams
