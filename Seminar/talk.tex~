@@ -890,7 +890,7 @@ Since the two Hankel operators act on orthogonal complements, we
 see that $\qd \varphi$ is bounded if and only if $H_{\varphi_+}$
 and $H_{\varphi_-}$ are bounded. Hence
 \begin{theorem}
-    $\qd \varphi$ is bounded if and only if $\varphi \in \BMO(\Circ)$.
+    $\qd \varphi$ is bounded if and only is $\varphi \in \BMO(\Circ)$.
 \end{theorem}
 \end{frame}
 
@@ -1055,107 +1055,96 @@ that
         \|\Gamma_f\|_1 \leq (m+1)\|f\|_1.
     \end{equation*}
 \end{lemma}
-\begin{proofs}[Proof (Cont.)]
-    Let $\zeta \in \Circ$, and
-    define the following two elements of $\ell^2(\Ntrl)$,
+\begin{proofs}
+    Let $\zeta \in \Circ$.
+    Define the two vectors $x_\zeta,y_\zeta \in \ell^2(\Ntrl)$, 
     \begin{align*}
         x_\zeta &= (1,\zeta,\zeta^2,\ldots,\zeta^m,0,0,\ldots)\\
         y_\zeta &= f(\zeta)(1,\zeta^{-1},\zeta^{-2},\ldots,\zeta^{-m},0,0,\ldots).
     \end{align*}
-    
-    Let $A_\zeta$ be the rank one operator on $\ell^2(\Ntrl)$ defined by
+    And define the rank one operator $A_\zeta = y_\zeta(x,x_\zeta)$. 
+\end{proofs}
+\end{frame}
+
+\begin{frame}
+\begin{proofs}[Proof (Cont.)]
+    We can see that the $(j,k)$th entry of the matrix for $A_\zeta$ is
     \begin{equation*}
-        A_\zeta(x) = y_\zeta(x,x_\zeta).
+        f(\zeta)\zeta^{-j-k}.
+    \end{equation*}
+    Hence we have an entrywise equality,
+    \begin{equation*}
+        \Gamma_f = \int_\Circ A_\zeta\;d\ha(\zeta).
+    \end{equation*}
+    But since these matrices only have finitely many non-zero entries, 
+    this can be considered as a Bochner integral. Therefore,
+    \begin{equation*}
+        \|\Gamma_f\| \leq \int_\Circ \|A_\zeta\|_1\;d\ha(\zeta).
     \end{equation*}
 \end{proofs}
 \end{frame}
 
 \begin{frame}
+\begin{proof}[Proof (Cont.)]
+Since $A_\zeta$ is rank one, we can compute its $\mathcal{L}^1$ norm,
+\begin{equation*}
+    \|A_\zeta\|_1 = \|x_\zeta\|_2\|y_\zeta\|_2 = (m+1)|f(\zeta)|.
+\end{equation*}
+Therefore,
+\begin{equation*}
+    \|\Gamma_f\|_1 \leq \int_\Circ (m+1)|f(\zeta)|\;d\ha(\zeta) = (m+1)\|f\|_1.
+\end{equation*}
+\end{proof}
+\end{frame}
+
+\begin{frame}
+\frametitle{Trace class Hankel operators}
+Finally we can prove the following,
+\begin{theorem}
+    Let $\varphi \in B_{11}^1(\Circ)$ and analytic in the unit disc. Then $\Gamma_\varphi \in \mathcal{L}^1$. 
+\end{theorem}
 \begin{proofs}
-    See that as a matrix, the $(j,k)$th entry of $A_\zeta$ is
+    By the definition of the sequence $\{W_n\}_{n\geq 0}$, we have
     \begin{equation*}
-        f(\zeta)\zeta^{-j-k}.
+        \varphi = \sum_{n\geq 0} W_n*\varphi.
     \end{equation*}
-    Since the $(j,k)$th entry of $\Gamma_f$ is $\widehat{f}(j+k)$, we
-    therefore have an entrywise equality of infinite matrices,
+    This series converges uniformly since $\varphi \in \mathcal{B}_{11}^1(\Circ) \subseteq C^1(\Circ)$.
+    Hence,
     \begin{equation*}
-        \Gamma_f = \int_\Circ A_\zeta\;d\ha(\zeta).
+        \Gamma_\varphi = \sum_{n\geq 0} \Gamma_{W_n*\varphi}
     \end{equation*}
-    However since these matrices only have finitely many non-zero entries, we may
-    regard the right hand side as a Bochner integral. Hence,
-    \begin{equation*}
-        \|\Gamma_f\|_1 \leq \int_\Circ \|A_\zeta\|_1 \;d\ha(\zeta).
-    \end{equation*}
-\end{proofs}
-\end{frame} 
+    is a series converging in the operator norm topology.
+\end{proofs} 
+\end{frame}
 
 \begin{frame}
 \begin{proof}[Proof (Cont.)]
-    Since $A_\zeta$ is rank one, we know that
-    \begin{equation*}
-        \|A_\zeta\|_1 = \|x_\zeta\|_2\|y_\zeta\|_2.
-    \end{equation*}
-    Thus,
-    \begin{equation*}
-        \|A_\zeta\|_1 = (m+1)|f(\zeta)|.
-    \end{equation*}
     Hence,
     \begin{equation*}
-        \|\Gamma_f\|_1 \leq (m+1)\int_\Circ |f(\zeta)|\;d\ha(\zeta) = (m+1)\|f\|_1.
+        \|\Gamma_\varphi\|_1 \leq \sum_{n\geq 0} \|\Gamma_{W_n * \varphi}\|_1.
+    \end{equation*}
+    But since $W_n*\varphi$ is a polynomial of degree at most $2^{n+1}$, we get
+    \begin{equation*}
+        \|\Gamma_\varphi\|_1 \leq \sum_{n\geq 0} 2^{n+1} \|W_n*\varphi\|_1.
     \end{equation*}
 \end{proof}
 \end{frame}
 
 \begin{frame}
-\frametitle{Trace Class Hankel Operators}
-With our lemma, we can prove the following,
-\begin{theorem}
-    Let $\varphi \in B_{11}^1(\Circ)$. Then $\Gamma_\varphi \in \mathcal{L}^1$.
-\end{theorem}
-\begin{proofs}[Proof (Cont.)]
-    Now, by the definition of the sequence $\{W_n\}_{n \geq 0}$, if $\varphi \in H^1(\Circ)$,
-    \begin{equation*}
-        \varphi = \sum_{n\geq 0} W_n * \varphi,
-    \end{equation*}
-    in the weak topology.
-    and hence,
-    \begin{equation*}
-        \Gamma_\varphi = \sum_{n\geq 0} \Gamma_{W_n*\varphi}.
-    \end{equation*}
-    
-\end{proofs}
-\end{frame}
-
-\begin{frame}
-\begin{proof}[Proof (Cont.)]
-    Now since $W_n*\varphi$ is a polynomial of degree at most $2^{n+1}$,
-    \begin{equation*}
-        \|\Gamma_\varphi\|_1 \leq \sum_{n\geq 0} 2^{n+1} \|W_n*\varphi\|_1.
-    \end{equation*}
-    Hence, $\Gamma_\varphi \in \mathcal{L}^1$.
-\end{proof} 
-\end{frame}
-
-
-\begin{frame}
 \frametitle{Trace class quantised differentials}
-At last we can prove the following,
+As a consequence, we obtain,
 \begin{theorem}
-    If $\varphi \in B_{11}^1(\Circ)$, then $\qd \varphi \in \mathcal{L}^1$. 
+    Let $\varphi \in B_{11}^1(\Circ)$, then $\qd \varphi \in \mathcal{L}^1$.
 \end{theorem}
-The converse is also true. In fact,
+The converse is also true. In fact, it is true that
 \begin{equation*}
-    \frac{1}{6}\sum_{n\geq 0} 2^n \|W_n*\varphi\|_1 \leq \|\Gamma_\varphi\|_1 \leq 2\sum_{n\geq 0} 2^n\|W_n*\varphi\|_1.
+    \frac{1}{6}\sum_{n\geq 0} 2^n\|W_n*\varphi\|_1 \leq \|\Gamma_\varphi\|_1 \leq 2\sum_{n\geq 0}2^n \|W_n*\varphi\|_1.
 \end{equation*}
 \end{frame}
 
 \begin{frame}
-\frametitle{Interpolation Theory}
-Remarkably, since we know sufficient conditions
-for $\qd \varphi$ to be compact and trace class, we can deduce
-sufficient conditions so that $\qd \varphi \in \mathcal{L}^p$
-for $p \in (1,\infty)$. We shall use interpolation.
-
+\frametitle{Interpolation}
+    
 \end{frame}
 
 \end{document}
