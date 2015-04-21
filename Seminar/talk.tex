@@ -661,13 +661,125 @@ $\Circ$ as follows.
 \end{theorem}
 \end{frame}
 
+
 \begin{frame}
-\frametitle{Can we do better?}
-Similar necessary and sufficient conditions can be found on $f$
-such that $\qd f \in \mathcal{L}^{p,q}$.
+\frametitle{Interpolation}
+    Astonishingly, since we know sufficient conditions for $\qd \varphi \in \mathcal{L}^1$
+    and for $\qd \varphi$ to be compact, we can derive sufficient conditions
+    for $\qd \varphi \in \mathcal{L}^p$. 
+    \begin{definition}
+        Let $\Ban$ be the category of Banach spaces with morphisms as
+        bounded linear maps.
+        
+        An interpolation pair is a pair of Banach spaces $(X_0,X_1)$,
+        such that $X_0$ and $X_1$ are continuously embedded in a topological
+        vector space $Y$. A morphism of interpolation pairs, written
+        $T:(X_0,X_1)\rightarrow (Y_0,Y_1)$ is a continuous linear map
+        $T:X_0+X_1\rightarrow Y_0+Y_1$, such that $T$ restricts
+        to a linear map $T:X_0\rightarrow Y_0$
+        and $T:X_1\rightarrow Y_1$. $\Ban_1$ is the category of interpolation
+        pairs with these morphisms.
+        
+        An interpolation functor is a functor $F:\Ban_1\rightarrow \Ban$.
+    \end{definition}
+\end{frame}
+
+\begin{frame}
+\frametitle{Interpolation}
+We claim that there exists an interpolation functor $F$ such that
+\begin{equation*}
+    F(\mathcal{L}^1,K) = \mathcal{L}^{p,q}.
+\end{equation*}
+Hence, if $\varphi \in F(B_{11}^1,\VMO(\Circ))$, then
+\begin{equation*}
+    \qd \varphi \in \mathcal{L}^{p,q}.
+\end{equation*}
+\end{frame}
+
+\begin{frame}
+\frametitle{Interpolation}
+In fact, we have the following,
+\begin{theorem}[Peller]
+    Let $\varphi \in B_{pp}^{1/p}(\Circ)$. Then $\qd \varphi \in \mathcal{L}^p$.
+\end{theorem}
+This is true for all $p \in (1,\infty)$, and in fact the converse is true.
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Summary}
 
 Let us see how to prove these results.
+In summary we have:
+\begin{tabular}{l | r}
+$f$ & $\qd f$\\
+\hline
+Rational & Finite rank\\
+$B_{pp}^p$ & $\mathcal{L}^p$\\
+$K(B_{11}^1,VMO)_{(1-p)^{-1},q}$ & $\mathcal{L}^{p,q}$\\
+$\VMO$ & Compact\\
+$\BMO$ & Bounded
+\end{tabular}
+\\
+You should now be convinced that the statement ``If $f$ is smoother than $g$,
+then $\qd f$ is smaller than $\qd g$" has at least some rigorous justification
+for functions on $\Circ$.
 \end{frame}
+
+
+\begin{frame}
+\frametitle{Quantised differentials and classical derivatives}
+Recall that $17$th century differentials were supposed to have the property
+that 
+\begin{equation*}
+    df = f'dx
+\end{equation*}
+provided that sufficiently small infinitesimals are ignored. 
+
+
+We can now interpret this in a rigorous sense. First, we replace
+infinitesimals with quantised differentials. To ``ignore sufficiently small infinitesimals" means
+that we work modulo some ideal of compact operators.
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Quantised differentials and classical derivatives}
+Let $\mathcal{L}_0^{p,\infty}$ be the closure in $\mathcal{L}^{p,\infty}$
+of the ideal of finite rank operators. 
+\begin{theorem}[Connes]
+    Let $f \in C(\Circ)$ be such that $\qd f \in \mathcal{L}^{p,\infty}$ and $\varphi \in C^\infty(\sigma(f))$, and $p \in [1,\infty)$. Then
+    \begin{equation*}
+        \qd \varphi(f) \equiv \varphi'(f)\qd f\;\operatorname{mod}\;\mathcal{L}^{p,\infty}_0.
+    \end{equation*}
+\end{theorem}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Quantised differentials on $\Rl$}
+So far we have talked about quantised differentials exclusively on $\Circ$. However,
+many of the same results hold for $\Rl$, since we have the \emph{Cayley transform}.
+
+Let $\zeta \in \Circ\setminus \{1\}$. Let 
+\begin{equation*}
+    \omega(\zeta) = i\frac{1+\zeta}{1-\zeta}.
+\end{equation*}
+
+Let $g \in L^0(\Rl)$. Define for $\zeta \in \Circ$, 
+\begin{equation*}
+    \mathcal{C}(g)(\zeta) = \frac{\sqrt{\pi}}{2i}\frac{(g\circ \omega)(\zeta)}{1-\zeta}
+\end{equation*}
+This allows results on $\Circ$ to be transferred to results on $\Rl$.
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Proving these statements}
+To prove all the preceding results, we need to introduce the theory of Hankel operators.
+\end{frame}
+
 
 \begin{frame}
 \frametitle{Hankel Operators}
@@ -1151,93 +1263,6 @@ The converse is also true. In fact, it is true that
 \begin{equation*}
     \frac{1}{6}\sum_{n\geq 0} 2^n\|W_n*\varphi\|_1 \leq \|\Gamma_\varphi\|_1 \leq 2\sum_{n\geq 0}2^n \|W_n*\varphi\|_1.
 \end{equation*}
-\end{frame}
-
-\begin{frame}
-\frametitle{Interpolation}
-    Astonishingly, since we know sufficient conditions for $\qd \varphi \in \mathcal{L}^1$
-    and for $\qd \varphi$ to be compact, we can derive sufficient conditions
-    for $\qd \varphi \in \mathcal{L}^p$. 
-    \begin{definition}
-        Let $\Ban$ be the category of Banach spaces with morphisms as
-        bounded linear maps.
-        
-        An interpolation pair is a pair of Banach spaces $(X_0,X_1)$,
-        such that $X_0$ and $X_1$ are continuously embedded in a topological
-        vector space $Y$. A morphism of interpolation pairs, written
-        $T:(X_0,X_1)\rightarrow (Y_0,Y_1)$ is a continuous linear map
-        $T:X_0+X_1\rightarrow Y_0+Y_1$, such that $T$ restricts
-        to a linear map $T:X_0\rightarrow Y_0$
-        and $T:X_1\rightarrow Y_1$. $\Ban_1$ is the category of interpolation
-        pairs with these morphisms.
-        
-        An interpolation functor is a functor $F:\Ban_1\rightarrow \Ban$.
-    \end{definition}
-\end{frame}
-
-\begin{frame}
-\frametitle{Interpolation}
-We claim that there exists an interpolation functor $F$ such that
-\begin{equation*}
-    F(\mathcal{L}^1,K) = \mathcal{L}^{p,q}.
-\end{equation*}
-Hence, if $\varphi \in F(B_{11}^1,\VMO(\Circ))$, then
-\begin{equation*}
-    \qd \varphi \in \mathcal{L}^{p,q}.
-\end{equation*}
-\end{frame}
-
-\begin{frame}
-\frametitle{Interpolation}
-In fact, we have the following,
-\begin{theorem}[Peller]
-    Let $\varphi \in B_{pp}^{1/p}(\Circ)$. Then $\qd \varphi \in \mathcal{L}^p$.
-\end{theorem}
-This is true for all $p \in (1,\infty)$, and in fact the converse is true.
-\end{frame}
-
-\begin{frame}
-\frametitle{Quantised differentials on $\Rl$}
-So far we have talked about quantised differentials exclusively on $\Circ$. However,
-many of the same results hold for $\Rl$, since we have the \emph{Cayley transform}.
-
-Let $\zeta \in \Circ\setminus \{1\}$. Let 
-\begin{equation*}
-    \omega(\zeta) = i\frac{1+\zeta}{1-\zeta}.
-\end{equation*}
-
-Let $g \in L^0(\Rl)$. Define for $\zeta \in \Circ$, 
-\begin{equation*}
-    \mathcal{C}(g)(\zeta) = \frac{\sqrt{\pi}}{2i}\frac{(g\circ \omega)(\zeta)}{1-\zeta}
-\end{equation*}
-This allows results on $\Circ$ to be transferred to results on $\Rl$.
-\end{frame}
-
-\begin{frame}
-\frametitle{Quantised differentials and classical derivatives}
-Recall that $17$th century differentials were supposed to have the property
-that 
-\begin{equation*}
-    df = f'dx
-\end{equation*}
-provided that sufficiently small infinitesimals are ignored. 
-
-
-We can now interpret this in a rigorous sense. First, we replace
-infinitesimals with quantised differentials. To ``ignore sufficiently small infinitesimals" means
-that we work modulo some ideal of compact operators.
-\end{frame}
-
-\begin{frame}
-\frametitle{Quantised differentials and classical derivatives}
-Let $\mathcal{L}_0^{p,\infty}$ be the closure in $\mathcal{L}^{p,\infty}$
-of the ideal of finite rank operators. 
-\begin{theorem}[Connes]
-    Let $f \in C(\Circ)$ be such that $\qd f \in \mathcal{L}^{p,\infty}$ and $\varphi \in C^\infty(\sigma(f))$, and $p \in [1,\infty)$. Then
-    \begin{equation*}
-        \qd \varphi(f) \equiv \varphi'(f)\qd f\;\operatorname{mod}\;\mathcal{L}^{p,\infty}_0.
-    \end{equation*}
-\end{theorem}
 \end{frame}
 
 \begin{frame}
