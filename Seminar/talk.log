@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.2.19)  21 APR 2015 12:34
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.2.19)  21 APR 2015 12:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -878,12 +878,12 @@ LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
 ] [5
 
 ]
-LaTeX Font Info:    Try loading font information for U+msa on input line 127.
+LaTeX Font Info:    Try loading font information for U+msa on input line 131.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 127.
+LaTeX Font Info:    Try loading font information for U+msb on input line 131.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -938,7 +938,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ] [29
 
 ]
-Overfull \vbox (0.35146pt too high) detected at line 479
+Overfull \vbox (0.35146pt too high) detected at line 483
  []
 
 [30
@@ -948,7 +948,7 @@ Overfull \vbox (0.35146pt too high) detected at line 479
 ]
 
 LaTeX Font Warning: Font shape `OT1/cmss/bx/it' undefined
-(Font)              using `OT1/cmss/bx/n' instead on input line 515.
+(Font)              using `OT1/cmss/bx/n' instead on input line 519.
 
 [32
 
@@ -1069,11 +1069,11 @@ LaTeX Font Warning: Font shape `OT1/cmss/bx/it' undefined
 \tf@snm=\write8
 \openout8 = `talk.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1282.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1282.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1286.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1286.
  (./talk.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1282.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1282.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1286.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1286.
 
 Package rerunfilecheck Info: File `talk.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
@@ -1085,13 +1085,13 @@ LaTeX Font Warning: Size substitutions with differences
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1282.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1286.
  ) 
 Here is how much of TeX's memory you used:
- 16167 strings out of 494474
- 298176 string characters out of 6172703
- 372793 words of memory out of 5000000
- 18839 multiletter control sequences out of 15000+600000
+ 16169 strings out of 494474
+ 298194 string characters out of 6172703
+ 372829 words of memory out of 5000000
+ 18841 multiletter control sequences out of 15000+600000
  18142 words of font info for 66 fonts, out of 8000000 for 9000
  452 hyphenation exceptions out of 8191
  49i,16n,63p,425b,937s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1109,7 +1109,7 @@ ts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
 cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.p
 fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pf
 b>
-Output written on talk.pdf (84 pages, 353366 bytes).
+Output written on talk.pdf (84 pages, 353334 bytes).
 PDF statistics:
  2346 PDF objects out of 2487 (max. 8388607)
  2209 compressed objects within 23 object streams
