@@ -34,7 +34,8 @@
   {\usebeamertemplate{proof end}}
 \makeatother
 
-  
+
+\def\qd{\,{\mathchar'26\mkern-12mu d}}
   
   
 
@@ -54,7 +55,7 @@
 \newcommand{\A}{\mathcal{A}}
 \newcommand{\Hilb}{\mathcal{H}}
 \newcommand{\D}{\mathcal{D}}
-\newcommand{\qd}{\hcancel[0.9pt]{d}}
+%\newcommand{\qd}{\hcancel[0.9pt]{d}}
 \newcommand{\sgn}{\operatorname{sgn}}
 \newcommand{\rk}{\operatorname{rank}}
 \newcommand{\BMO}{\operatorname{BMO}}
@@ -440,7 +441,7 @@ $T$ as the \emph{rate of decay} of $\{\mu_k(T)\}_{k=0}^\infty$.
     Let $T$ and $S$ be compact operators in $\mathcal{B}(\Hilb)$. Then
     for every $k \geq 0$,
     \begin{equation*}
-        \mu_k(TS) \leq \mu_k(T)\mu_k(S).
+        \mu_k(TS) \leq \mu_k(T)^2.
     \end{equation*}
 \end{theorem}
 Hence, if $T$ is an infinitesimal, then $T^2$ is a smaller infinitesimal.
