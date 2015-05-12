@@ -229,8 +229,7 @@ derivative or quantised differential.
 \begin{definition}
     Let $\A = L^\infty(\Circ)$ or $L^\infty(\Rl)$.
     
-    The operator $\D$ is differentiation, given
-    by $\D = \frac{1}{2\pi i}\frac{d}{d\theta}$ on $\Circ$and $\D = \frac{1}{i}\frac{d}{dx}$
+    The operator $\D$ is differentiation,  $\frac{1}{2\pi i}\frac{d}{d\theta}$ on $\Circ$and $\D = \frac{1}{i}\frac{d}{dx}$
     on $\Rl$ and.
     
     Let $F = \sgn(\D)$. 
