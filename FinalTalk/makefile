@@ -4,6 +4,7 @@ NAME = talk
 
 $(NAME).pdf: $(NAME).tex
 	$(COMP) $<
+	$(COMP) $<
 
 read: $(NAME).pdf
 	$(READ) $<
