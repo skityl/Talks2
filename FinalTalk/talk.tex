@@ -503,29 +503,19 @@ of $f$ and the size of $\qd f$. To this end, we define the \emph{Besov classes} 
 
 \begin{frame}
 \frametitle{Definition of $B_{pq}^s$} 
-We define a sequence of polynomials $\{W_n\}_{n\in \Itgr}$ on
-$\Circ$ as follows.
-\begin{enumerate}
-    \item{} $W_0 = z^{-1}+1+z$.
-    \item{} For $n > 0$ and $k > 0$,
-    \begin{equation*}
-        \widehat{W}_n(k) = \begin{cases}
-            1,\text{ if }k = 2^n\\
-            \text{a linear function on }[2^{n-1},2^n]\text{ and }[2^n,2^{n+1}]\\
-            0,\text{ otherwise.}
-        \end{cases}
-    \end{equation*}
-    and $\widehat{W}_n(-k) = \widehat{W}_n(k)$, and $\widehat{W}_n(0) = 0$.
-\end{enumerate}
-\end{frame}
-
-\begin{frame}
-\frametitle{Definition of $B^s_{pq}$}
 \begin{definition}
-    For an integrable function $\varphi$ on $\Circ$, we say that $f \in B_{pq}^s(\Circ)$
-    if
+    Let $\tau \in \Circ$, and $f \in L^1(\Circ)$. Define
     \begin{equation*}
-        \sum_{n\in \Itgr} 2^{|n|sp} \|W_n*\varphi\|_{p}^q < \infty.
+        \Delta_\tau f(x) := f(x\tau)-f(x).
+    \end{equation*}
+    Let $s > 0$, and $p,q \in [1,\infty]$. Let
+    $n > s$ be an integer.
+    The Besov space $B_{pq}^s$ is defined to be:
+    \begin{equation*}
+        B^s_{pq}(\Circ) := \left\{f \in L^p(\Circ)\;:\; \int_\Circ \frac{\|\Delta^n_\tau f\|_p^q}{|1-\tau|^{1+sq}}d\ha(\tau) < \infty\right\}, q < \infty
+    \end{equation*}
+    \begin{equation*}
+        B^s_{p\infty}(\Circ) := \left\{f\in L^p(\Circ)\;:\;\sup_{\tau \neq 1}\frac{\|\Delta^n_\tau f\|_p}{|1-\tau|^s} < \infty\right\}
     \end{equation*}
 \end{definition}
 \end{frame}
